@@ -19,10 +19,13 @@ class Board extends React.Component {
       return
     }
     const squares = this.state.squares.slice();
+    if (squares[i] === 'X' || squares[i] === 'O') {
+      return
+    }
     squares[i] = this.state.currentSquare;
     this.setState({squares: squares});
     this.setState({currentSquare: this.state.currentSquare === 'X' ? 'O' : 'X'})
-    this.judgeSuccess(squares)
+    this.judgeSuccess(squares) // 判断一方是否获胜
     this.judgeIsFillAll(squares) // 判断格子是否全部填满
   }
 
