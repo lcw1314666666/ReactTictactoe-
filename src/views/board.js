@@ -9,12 +9,13 @@ class Board extends React.Component {
       squares: new Array(9).fill(null), // 棋盘数组
       currentSquare: 'X', // 当前落子
       victoryName: '', // 获胜棋子name
-      isVictory: false //  是否获胜
+      isVictory: false, //  是否获胜
+      isFillAll: false
     }
   }
 
   handleClick(i) {
-    if (this.state.isVictory) {
+    if (this.state.isVictory || this.state.isFillAll) {
       return
     }
     const squares = this.state.squares.slice();
@@ -22,6 +23,7 @@ class Board extends React.Component {
     this.setState({squares: squares});
     this.setState({currentSquare: this.state.currentSquare === 'X' ? 'O' : 'X'})
     this.judgeSuccess(squares)
+    this.judgeIsFillAll(squares) // 判断格子是否全部填满
   }
 
   judgeSuccess(squares) {
@@ -66,6 +68,13 @@ class Board extends React.Component {
         }
       }
     })
+  }
+
+  judgeIsFillAll(squares) {
+    const result = squares.every(item => {
+      return item === 'X' || item === 'O'
+    })
+    this.state.isFillAll = result
   }
 
   renderSquare(i) {
